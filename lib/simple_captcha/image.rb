@@ -72,6 +72,9 @@ module SimpleCaptcha #:nodoc
         dst = Tempfile.new(RUBY_VERSION < '1.9' ? 'simple_captcha.jpg' : ['simple_captcha', '.jpg'], SimpleCaptcha.tmp_path)
         dst.binmode
 
+        # dirty hack, make temp file accessible for nginx
+        File.chmod(0775, dst)
+
         #params << "label:#{text} '#{File.expand_path(dst.path)}'"
         params << "label:#{text} \"#{File.expand_path(dst.path)}\""
 
